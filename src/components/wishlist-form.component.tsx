@@ -1,16 +1,22 @@
-import { FormEvent, useEffect, useReducer } from "react";
+import { AxiosResponse } from "axios";
+import { FormEvent, useEffect, useMemo, useReducer } from "react";
 import { useParams } from "react-router-dom";
+import { WishlistService } from "../services";
+import { Wishlist } from "../types";
 
 interface WishlistFormProps {
   mode: "create" | "edit";
 }
 
 enum ActionTypes {
+  SetWishlistData,
   SetWishlistID,
   SetWishlistName,
 }
 
 export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
+  const service = useMemo(() => new WishlistService(), []);
+
   // id is undefined if we're in create mode
   const { id } = useParams();
 
@@ -20,15 +26,38 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
   });
 
   useEffect(() => {
-    // TODO -- load the wishlist with the provided id if in edit mode
     if (id) {
+      // ID was provided --> get the appropriate wishlist from the REST API
       console.log(id);
+      service.getOneWishlist(
+        id,
+        (response: AxiosResponse<any, Wishlist>) => {
+          dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
+        },
+        () => {}
+      );
     }
-  });
+  }, [id, service, dispatch]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    // TODO -- submit the form data
-    console.log(state);
+    if (mode === "create") {
+      service.createWishlist(
+        createWishlistFromState(state),
+        (response) => {
+          console.log(response);
+        },
+        (error) => console.error(error.message)
+      );
+    } else {
+      // edit mode
+      service.modifyWishlist(
+        createWishlistFromState(state),
+        (response) => {
+          console.log(response);
+        },
+        (error) => console.error(error.message)
+      );
+    }
     event.preventDefault();
   };
 
@@ -67,6 +96,7 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
 };
 
 type Action =
+  | { type: ActionTypes.SetWishlistData; payload: Wishlist }
   | { type: ActionTypes.SetWishlistID; payload: string }
   | { type: ActionTypes.SetWishlistName; payload: string };
 
@@ -77,6 +107,14 @@ type State = {
 
 const wishlistFormReducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case ActionTypes.SetWishlistData: {
+      return {
+        ...state,
+        wishlistID: action.payload.id,
+        wishlistName: action.payload.name,
+      };
+    }
+
     case ActionTypes.SetWishlistID: {
       return {
         ...state,
@@ -91,4 +129,8 @@ const wishlistFormReducer = (state: State, action: Action): State => {
       };
     }
   }
+};
+
+const createWishlistFromState = (state: State): Wishlist => {
+  return { id: state.wishlistID, name: state.wishlistName };
 };
