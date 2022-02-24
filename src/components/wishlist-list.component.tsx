@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect, useMemo, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { WishlistService } from "../services";
 import { Wishlist } from "../types";
@@ -11,6 +11,8 @@ enum ActionTypes {
 }
 
 export const WishlistListComponent = (): JSX.Element => {
+  const service = useMemo(() => new WishlistService(), []);
+
   const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(wishlistReducer, {
@@ -20,7 +22,6 @@ export const WishlistListComponent = (): JSX.Element => {
   });
 
   useEffect(() => {
-    const service = new WishlistService();
     dispatch({ type: ActionTypes.SetLoading });
 
     service.getAllWishlists(
@@ -31,7 +32,7 @@ export const WishlistListComponent = (): JSX.Element => {
         dispatch({ type: ActionTypes.SetError, payload: error.message });
       }
     );
-  }, [dispatch]);
+  }, [service, dispatch]);
 
   const handleClick = (): void => {
     navigate("/wishlists/create");
@@ -58,7 +59,7 @@ const WishlistTable = ({ data }: WishlistTableProps): JSX.Element => {
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th className="text-center">Actions</th>
+          <th className="text-end">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -75,17 +76,31 @@ interface WishlistItemProps {
 }
 
 const WishlistItem = ({ data }: WishlistItemProps): JSX.Element => {
+  const service = useMemo(() => new WishlistService(), []);
+
   const navigate = useNavigate();
+
   const handleEditClick = (): void => {
     navigate(`/wishlists/edit/${data.id}`);
+  };
+
+  const handleDeleteClick = (): void => {
+    service.deleteWishlist(
+      data.id,
+      () => {},
+      () => {}
+    );
   };
   return (
     <tr>
       <td>{data.id}</td>
       <td>{data.name}</td>
-      <td className="text-center">
-        <button className="btn btn-secondary" onClick={handleEditClick}>
+      <td className="text-end">
+        <button className="btn btn-secondary me-1" onClick={handleEditClick}>
           Edit
+        </button>
+        <button className="btn btn-secondary" onClick={handleDeleteClick}>
+          Delete
         </button>
       </td>
     </tr>
