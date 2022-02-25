@@ -1,8 +1,8 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { getConfiguration } from "../config";
-import { renderWithRouter } from "../utils/test-utils";
+import { getConfiguration } from "../../config";
+import { renderWithRouter } from "../../utils/test-utils";
 import { WishlistForm } from "./wishlist-form.component";
 
 describe("WishlistForm component test suite", () => {

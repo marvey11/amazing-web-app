@@ -3,10 +3,10 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 import { WishlistForm } from ".";
-import { getConfiguration } from "../config";
-import { Wishlist } from "../types";
-import { WishlistListComponent, WishlistTable } from "./wishlist-list.component";
-import testData from "./wishlist-test-data.json";
+import { getConfiguration } from "../../config";
+import { Wishlist } from "../../types";
+import { WishlistListComponent, WishlistTable } from "../wishlist-list.component";
+import testData from "../wishlist-test-data.json";
 
 const wishlists: Wishlist[] = testData.map((item) => ({
   id: item.id,

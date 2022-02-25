@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { WishlistForm, WishlistListComponent } from "./components";
 import { FooterComponent, HeaderComponent, SidebarContainer } from "./components/layout";
+import { WishlistForm, WishlistListComponent } from "./components/wishlist";
 
 function App(): JSX.Element {
   return (
