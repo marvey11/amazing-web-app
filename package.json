@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "amazing-web-app",
+  "name": "@codescape-amazing/web-app",
   "version": "0.1.0",
   "dependencies": {
     "axios": "^0.26.0",
