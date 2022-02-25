@@ -1,23 +1,18 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 import { WishlistForm } from ".";
 import { getConfiguration } from "../../config";
-import { Wishlist } from "../../types";
-import { WishlistListComponent, WishlistTable } from "../wishlist-list.component";
-import testData from "../wishlist-test-data.json";
-
-const wishlists: Wishlist[] = testData.map((item) => ({
-  id: item.id,
-  name: item.name,
-}));
+import { WishlistListComponent } from "./wishlist-list.component";
+import testData from "./wishlist-test-data.json";
 
 describe("Wishlist component test suite", () => {
   const WISHLIST_URL_GET_ALL = `${getConfiguration().restURL}/wishlists`;
 
   const TEST_ID_WISHLIST_TABLE = "test-id-wishlist-table";
   const TEST_ID_WISHLIST_FORM = "test-id-wishlist-form";
+  const TEST_ID_MODAL_DIALOG = "test-id-modal-dialog";
 
   const mock = new MockAdapter(axios, { onNoMatch: "throwException" });
 
@@ -43,28 +38,6 @@ describe("Wishlist component test suite", () => {
       expect(addButton).toBeInTheDocument();
 
       spy.mockRestore();
-    });
-  });
-
-  describe("what happens when a table is rendered", () => {
-    it("should be rendered with only a header row for an empty data list", () => {
-      render(<WishlistTable data={[]} />);
-
-      const dataTable = screen.getByTestId(TEST_ID_WISHLIST_TABLE);
-      expect(dataTable).toBeInTheDocument();
-
-      // we should only have one header row
-      expect(screen.queryAllByRole("row")).toHaveLength(1);
-    });
-
-    it("should be rendered with the correct number of rows for the test data", () => {
-      render(<WishlistTable data={wishlists} />, { wrapper: BrowserRouter });
-
-      const dataTable = screen.getByTestId(TEST_ID_WISHLIST_TABLE);
-      expect(dataTable).toBeInTheDocument();
-
-      // we should have 3 rows: one header + two data rows
-      expect(screen.queryAllByRole("row")).toHaveLength(3);
     });
   });
 
@@ -148,35 +121,58 @@ describe("Wishlist component test suite", () => {
       expect(wishlistForm).toBeInTheDocument();
     });
 
-    it("should call handle the delete of an item correctly", async () => {
+    it("should handle the click on the delete button of an item correctly", async () => {
       // for this test we need test data since the Delete button will not be available otherwise,
       // though one set should be enough
       const data = testData[0];
 
-      // we need one mock for the get-all-wishlists call...
-      mock.onGet(WISHLIST_URL_GET_ALL).reply(200, [data]);
-      // ... and another one for the delete-wishlist call that is executed when the button is clicked
-      mock.onDelete(`${getConfiguration().restURL}/wishlists/${data.id}`);
-
-      const spy = jest.spyOn(axios, "delete");
+      // for now we only need one mock for the get-all-wishlists that returns actual data
+      mock.onGet(WISHLIST_URL_GET_ALL).replyOnce(200, [data]);
 
       render(<WishlistListComponent />, { wrapper: BrowserRouter });
 
+      // wait for the table to render the returned data
       await screen.findByTestId(TEST_ID_WISHLIST_TABLE);
 
-      const deleteButton = screen.getByText(/Delete/);
-      expect(deleteButton).toBeInTheDocument();
-
-      // we should have 2 rows at this point: one header + one data rows
+      // we should have 2 table rows at this point: one header + one data rows
       expect(screen.queryAllByRole("row")).toHaveLength(2);
 
-      fireEvent.click(deleteButton);
+      // simulate a click on the delete button
+      fireEvent.click(screen.getByText(/Delete/));
 
-      expect(spy).toHaveBeenCalled();
-      spy.mockRestore();
+      // at this point the modal should appear
+      await screen.findByTestId(TEST_ID_MODAL_DIALOG);
 
-      // we should have only have the header row left after the delete
-      expect(screen.queryAllByRole("row")).toHaveLength(2);
+      // at this point we're resetting the mock handlers and will be setting up new ones:
+      // - one for the delete method
+      // - another one for the get method returning all wishlists, though at this point we're returning an empty list
+      //   since the only element was just deleted
+      // --> both handlers only reply once; for any more requests an error would occur
+      mock.resetHandlers();
+      mock
+        .onDelete(`${getConfiguration().restURL}/wishlists/${data.id}`)
+        .replyOnce(200)
+        .onGet(WISHLIST_URL_GET_ALL)
+        .replyOnce(200, [])
+        .onAny()
+        .reply(500);
+
+      const deleteSpy = jest.spyOn(axios, "delete");
+
+      // simulate a click on the Yes button, signifying the user wants to actually delete the wishlist
+      fireEvent.click(screen.getByText(/Yes/));
+
+      // wait until the modal is gone
+      await waitForElementToBeRemoved(() => screen.queryByTestId(TEST_ID_MODAL_DIALOG));
+
+      // make sure the delete method was actually called
+      expect(deleteSpy).toHaveBeenCalled();
+
+      // we now should have only have the header row left after the delete
+      expect(screen.queryAllByRole("row")).toHaveLength(1);
+
+      // clean-up
+      deleteSpy.mockRestore();
     });
   });
 });

@@ -55,7 +55,11 @@
         "lines": 80,
         "statements": 80
       }
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/config.ts",
+      "<rootDir>/src/index.tsx"
+    ]
   },
   "browserslist": {
     "production": [

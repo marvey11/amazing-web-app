@@ -9,7 +9,7 @@ interface WishlistTableProps {
 export const WishlistTable = ({ data, onEditClicked, onDeleteClicked }: WishlistTableProps): JSX.Element => {
   return (
     <>
-      <table className="table table-striped">
+      <table className="table table-striped" data-testid="test-id-wishlist-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -36,7 +36,7 @@ interface WishlistItemProps {
 const WishlistItem = ({ data, onEditClicked, onDeleteClicked }: WishlistItemProps): JSX.Element => {
   return (
     <tr>
-      <td>{data.id}</td>
+      <td className="font-monospace">{data.id}</td>
       <td>{data.name}</td>
       <td className="text-end">
         <button className="btn btn-secondary me-1" onClick={() => onEditClicked(data)}>

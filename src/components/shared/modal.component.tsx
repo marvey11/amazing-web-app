@@ -21,7 +21,7 @@ const ModalDialog = ({
   onClick,
 }: ModalDialogProps): JSX.Element => {
   return (
-    <Modal show={show}>
+    <Modal show={show} data-testid="test-id-modal-dialog">
       <Modal.Header closeButton={showCloseButton}>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
@@ -38,12 +38,12 @@ const ModalDialog = ({
   );
 };
 
-const buttonLabels = new Map<DialogButtonType, string>([
-  ["YES", "Yes"],
-  ["NO", "No"],
-  ["OK", "OK"],
-  ["CANCEL", "Cancel"],
-]);
+const buttonLabels: Record<DialogButtonType, string> = {
+  YES: "Yes",
+  NO: "No",
+  OK: "OK",
+  CANCEL: "Cancel",
+};
 
 interface DialogButtonProps {
   buttonType: DialogButtonType;
@@ -54,7 +54,7 @@ interface DialogButtonProps {
 const DialogButton = ({ buttonType, variant, onClick }: DialogButtonProps): JSX.Element => {
   return (
     <Button variant={variant} onClick={() => onClick(buttonType)}>
-      {buttonLabels.get(buttonType)}
+      {buttonLabels[buttonType]}
     </Button>
   );
 };
