@@ -1,11 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { WishlistForm, WishlistListComponent } from "./components";
+import { FooterComponent, HeaderComponent, SidebarContainer } from "./components/layout";
 
 function App(): JSX.Element {
   return (
     <div className="container-fluid">
-      <div className="container">
+      <HeaderComponent />
+      <SidebarContainer />
+
+      <div className="content-container">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate replace to="/wishlists" />} />
@@ -15,6 +19,8 @@ function App(): JSX.Element {
           </Routes>
         </BrowserRouter>
       </div>
+
+      <FooterComponent />
     </div>
   );
 }
