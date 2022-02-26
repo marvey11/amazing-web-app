@@ -28,7 +28,6 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
   useEffect(() => {
     if (id) {
       // ID was provided --> get the appropriate wishlist from the REST API
-      console.log(id);
       service.getOneWishlist(
         id,
         (response: AxiosResponse<any, Wishlist>) => {
@@ -43,18 +42,14 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
     if (mode === "create") {
       service.createWishlist(
         createWishlistFromState(state),
-        (response) => {
-          console.log(response);
-        },
+        (response) => console.log(response),
         (error) => console.error(error.message)
       );
     } else {
       // edit mode
       service.modifyWishlist(
         createWishlistFromState(state),
-        (response) => {
-          console.log(response);
-        },
+        (response) => console.log(response),
         (error) => console.error(error.message)
       );
     }
@@ -62,7 +57,7 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} data-testid="test-id-wishlist-form">
       <div className="mb-3">
         <label htmlFor="wishlist-form-id" className="form-label">
           Amazon Wishlist ID
@@ -74,6 +69,7 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
           disabled={mode === "edit"}
           value={state.wishlistID}
           onChange={(e) => dispatch({ type: ActionTypes.SetWishlistID, payload: e.target.value })}
+          data-testid="test-id-wishlist-form-id-input"
         ></input>
       </div>
       <div className="mb-3">
@@ -86,6 +82,7 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
           className="form-control"
           value={state.wishlistName}
           onChange={(e) => dispatch({ type: ActionTypes.SetWishlistName, payload: e.target.value })}
+          data-testid="test-id-wishlist-form-name-input"
         ></input>
       </div>
       <button type="submit" className="btn btn-primary">

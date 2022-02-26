@@ -9,7 +9,7 @@ function App(): JSX.Element {
       <HeaderComponent />
       <SidebarContainer />
 
-      <div className="content-container">
+      <div id="content-container" className="content-container" data-testid="test-id-content-container">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate replace to="/wishlists" />} />
