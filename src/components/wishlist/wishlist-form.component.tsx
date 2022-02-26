@@ -28,32 +28,24 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
   useEffect(() => {
     if (id) {
       // ID was provided --> get the appropriate wishlist from the REST API
-      service.getOneWishlist(
-        id,
-        (response: AxiosResponse<any, Wishlist>) => {
-          dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
-        },
-        () => {
-          // TODO: handle errors
-        }
-      );
+      service.getOneWishlist(id).then((response: AxiosResponse<any, Wishlist>) => {
+        dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
+      });
     }
   }, [id, service, dispatch]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     if (mode === "create") {
-      service.createWishlist(
-        createWishlistFromState(state),
-        (response) => console.log(response),
-        (error) => console.error(error.message)
-      );
+      service
+        .createWishlist(createWishlistFromState(state))
+        .then((response: AxiosResponse) => console.log(response))
+        .catch((error: Error) => console.error(error.message));
     } else {
       // edit mode
-      service.modifyWishlist(
-        createWishlistFromState(state),
-        (response) => console.log(response),
-        (error) => console.error(error.message)
-      );
+      service
+        .modifyWishlist(createWishlistFromState(state))
+        .then((response: AxiosResponse) => console.log(response))
+        .catch((error: Error) => console.error(error.message));
     }
     event.preventDefault();
   };

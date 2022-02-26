@@ -20,6 +20,10 @@ describe("Wishlist component test suite", () => {
     mock.reset();
   });
 
+  beforeEach(() => {
+    mock.resetHandlers();
+  });
+
   afterEach(cleanup);
 
   describe("what happens when the component is initialised", () => {
@@ -95,9 +99,14 @@ describe("Wishlist component test suite", () => {
       const data = testData[0];
 
       // we need one mock for the get-all-wishlists call...
-      mock.onGet(WISHLIST_URL_GET_ALL).reply(200, [data]);
       // ... and another one for the get-one-wishlist call that is executed when the wishlist form opens in edit mode
-      mock.onGet(`${getConfiguration().restURL}/wishlists/${data.id}`, data);
+      mock
+        .onGet(WISHLIST_URL_GET_ALL)
+        .replyOnce(200, [data])
+        .onGet(`${getConfiguration().restURL}/wishlists/${data.id}`)
+        .replyOnce(200, data)
+        .onAny()
+        .reply(500);
 
       // we need to provide both the list and editor components
       // ... otherwise we will not be able to navigate to the editor component upon button click
