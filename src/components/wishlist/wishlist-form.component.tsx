@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import { FormEvent, useEffect, useMemo, useReducer } from "react";
 import { useParams } from "react-router-dom";
-import { WishlistService } from "../services";
-import { Wishlist } from "../types";
+import { WishlistService } from "../../services";
+import { Wishlist } from "../../types";
 
 interface WishlistFormProps {
   mode: "create" | "edit";
@@ -33,7 +33,9 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
         (response: AxiosResponse<any, Wishlist>) => {
           dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
         },
-        () => {}
+        () => {
+          // TODO: handle errors
+        }
       );
     }
   }, [id, service, dispatch]);
