@@ -32,10 +32,6 @@ export const SidebarContainer = (): JSX.Element => {
 
 type ListItemColor = "lightgrey" | "darkgrey";
 
-type ListItemStyle = {
-  backgroundColor: ListItemColor;
-};
-
 interface ListItemProps {
   label: string;
   link: string;
@@ -44,20 +40,13 @@ interface ListItemProps {
 const ListItem = ({ label, link }: ListItemProps): JSX.Element => {
   const [backgroundColor, setBackgroundColor] = useState<ListItemColor>("lightgrey");
 
-  const handleMouseEnter = (): void => {
-    setBackgroundColor("darkgrey");
-  };
-
-  const handleMouseLeave = (): void => {
-    setBackgroundColor("lightgrey");
-  };
-
-  const getStyle = (): ListItemStyle => {
-    return { backgroundColor: backgroundColor };
-  };
-
   return (
-    <li className="nav-item" style={getStyle()} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <li
+      className="nav-item"
+      style={{ backgroundColor: backgroundColor }}
+      onMouseEnter={() => setBackgroundColor("darkgrey")}
+      onMouseLeave={() => setBackgroundColor("lightgrey")}
+    >
       <a href={link} className="nav-link fw-bold text-decoration-none" style={{ color: "black" }}>
         {label}
       </a>
