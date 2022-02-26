@@ -10,7 +10,7 @@ enum ActionTypes {
   SetLoading,
 }
 
-export const WishlistListComponent = (): JSX.Element => {
+const WishlistListComponent = (): JSX.Element => {
   const service = useMemo(() => new WishlistService(), []);
 
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ interface WishlistTableProps {
 
 const WishlistTable = ({ data }: WishlistTableProps): JSX.Element => {
   return (
-    <table className="table table-striped">
+    <table className="table table-striped" data-testid="test-id-wishlist-table">
       <thead>
         <tr>
           <th>ID</th>
@@ -145,3 +145,5 @@ const wishlistReducer = (state: State, action: Action): State => {
     }
   }
 };
+
+export { WishlistTable, WishlistListComponent };
