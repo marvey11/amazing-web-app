@@ -5,17 +5,27 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  ci:
+    name: CI
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Set up Node 16
+      uses: actions/setup-node@v2
       with:
         node-version: "16"
         cache: "yarn"
 
-    - run: yarn install --frozen-lockfile
-    - run: yarn run build
-    - run: yarn run test
-    - run: yarn run test:coverage
+    - name: Install packages
+      run: yarn install --frozen-lockfile
+
+    - name: Build
+      run: yarn run build
+
+    - name: Jest Testing
+      run: yarn run test
+
+    - name: Test Coverage
+      run: yarn run test:coverage
