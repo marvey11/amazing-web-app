@@ -9,43 +9,24 @@ export class WishlistService {
     this.apiURL = getConfiguration().restURL + "/wishlists";
   }
 
-  getAllWishlists = async (
-    onSuccess: (response: AxiosResponse<any, Wishlist[]>) => void,
-    onError: (error: Error) => void
-  ): Promise<void> => {
-    return axios.get(this.apiURL).then(onSuccess).catch(onError);
+  getAllWishlists = async (): Promise<AxiosResponse<any, Wishlist[]>> => {
+    return axios.get(this.apiURL);
   };
 
-  getOneWishlist = async (
-    id: string,
-    onSuccess: (response: AxiosResponse<any, Wishlist>) => void,
-    onError: (error: Error) => void
-  ): Promise<void> => {
-    return axios.get(`${this.apiURL}/${id}`).then(onSuccess).catch(onError);
+  getOneWishlist = async (id: string): Promise<AxiosResponse<any, Wishlist>> => {
+    return axios.get(`${this.apiURL}/${id}`);
   };
 
-  createWishlist = async (
-    data: Wishlist,
-    onSuccess: (response: AxiosResponse) => void,
-    onError: (error: Error) => void
-  ) => {
-    return axios.post(this.apiURL, data).then(onSuccess).catch(onError);
+  createWishlist = async (data: Wishlist): Promise<AxiosResponse> => {
+    return axios.post(this.apiURL, data);
   };
 
-  modifyWishlist = async (
-    data: Wishlist,
-    onSuccess: (response: AxiosResponse) => void,
-    onError: (error: Error) => void
-  ) => {
+  modifyWishlist = async (data: Wishlist): Promise<AxiosResponse> => {
     const bodyData = { name: data.name };
-    return axios.put(`${this.apiURL}/${data.id}`, bodyData).then(onSuccess).catch(onError);
+    return axios.put(`${this.apiURL}/${data.id}`, bodyData);
   };
 
-  deleteWishlist = async (
-    id: string,
-    onSuccess: (response: AxiosResponse) => void,
-    onError: (error: Error) => void
-  ): Promise<void> => {
-    return axios.delete(`${this.apiURL}/${id}`).then(onSuccess).catch(onError);
+  deleteWishlist = async (id: string): Promise<AxiosResponse> => {
+    return axios.delete(`${this.apiURL}/${id}`);
   };
 }

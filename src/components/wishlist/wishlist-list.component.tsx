@@ -54,14 +54,14 @@ export const WishlistListComponent = (): JSX.Element => {
     // make sure we can show some loading indicator
     dispatch({ type: ActionTypes.SetLoading });
 
-    service.getAllWishlists(
-      (response: AxiosResponse<any, Wishlist[]>) => {
+    service
+      .getAllWishlists()
+      .then((response: AxiosResponse<any, Wishlist[]>) => {
         dispatch({ type: ActionTypes.SetSuccess, payload: response.data });
-      },
-      (error: Error) => {
+      })
+      .catch((error: Error) => {
         dispatch({ type: ActionTypes.SetError, payload: error.message });
-      }
-    );
+      });
   }, [dispatch, service]);
 
   useEffect(() => {
@@ -117,16 +117,10 @@ export const WishlistListComponent = (): JSX.Element => {
     dispatch({ type: ActionTypes.ResetDeletionPending });
 
     if (wishlist) {
-      service.deleteWishlist(
-        wishlist.id,
-        () => {
-          // need to refresh the data after server-side update
-          getAllWishlists();
-        },
-        () => {
-          // TODO: handle errors here
-        }
-      );
+      service.deleteWishlist(wishlist.id).then(() => {
+        // need to refresh the data after server-side update
+        getAllWishlists();
+      });
     }
   };
 
