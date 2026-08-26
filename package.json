@@ -3,7 +3,7 @@
   "name": "@codescape-amazing/web-app",
   "version": "0.1.0",
   "dependencies": {
-    "axios": "^0.26.0",
+    "axios": "^1.19.0",
     "bootstrap": "5",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
