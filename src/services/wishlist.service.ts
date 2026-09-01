@@ -9,11 +9,11 @@ export class WishlistService {
     this.apiURL = getConfiguration().restURL + "/wishlists";
   }
 
-  getAllWishlists = async (): Promise<AxiosResponse<any, Wishlist[]>> => {
+  getAllWishlists = async (): Promise<AxiosResponse<Wishlist[]>> => {
     return axios.get(this.apiURL);
   };
 
-  getOneWishlist = async (id: string): Promise<AxiosResponse<any, Wishlist>> => {
+  getOneWishlist = async (id: string): Promise<AxiosResponse<Wishlist>> => {
     return axios.get(`${this.apiURL}/${id}`);
   };
 

@@ -11,5 +11,5 @@ const prodConfig: Configuration = {
 };
 
 export const getConfiguration = (): Configuration => {
-  return process.env.NODE_ENV === "production" ? prodConfig : devConfig;
+  return import.meta.env.PROD ? prodConfig : devConfig;
 };

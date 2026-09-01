@@ -12,15 +12,15 @@ describe("Sidebar Component Test Suite", () => {
       const item = items[0];
       expect(item).toHaveClass("nav-item");
 
-      expect(item).toHaveStyle({ backgroundColor: "lightgrey" });
+      expect(item).toHaveAttribute("style", expect.stringContaining("background-color: lightgrey"));
 
       fireEvent.mouseEnter(item);
 
-      expect(item).toHaveStyle({ backgroundColor: "darkgrey" });
+      expect(item).toHaveAttribute("style", expect.stringContaining("background-color: darkgrey"));
 
       fireEvent.mouseLeave(item);
 
-      expect(item).toHaveStyle({ backgroundColor: "lightgrey" });
+      expect(item).toHaveAttribute("style", expect.stringContaining("background-color: lightgrey"));
     });
   });
 });

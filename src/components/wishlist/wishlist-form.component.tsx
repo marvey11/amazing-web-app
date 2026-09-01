@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import { FormEvent, useEffect, useMemo, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import { type FormEvent, useEffect, useMemo, useReducer, type ReactElement } from "react";
+import { useParams } from "react-router";
 import { WishlistService } from "../../services";
 import { Wishlist } from "../../types";
 
@@ -14,7 +14,7 @@ enum ActionTypes {
   SetWishlistName,
 }
 
-export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
+export const WishlistForm = ({ mode }: WishlistFormProps): ReactElement => {
   const service = useMemo(() => new WishlistService(), []);
 
   // id is undefined if we're in create mode
@@ -28,7 +28,7 @@ export const WishlistForm = ({ mode }: WishlistFormProps): JSX.Element => {
   useEffect(() => {
     if (id) {
       // ID was provided --> get the appropriate wishlist from the REST API
-      service.getOneWishlist(id).then((response: AxiosResponse<any, Wishlist>) => {
+      service.getOneWishlist(id).then((response: AxiosResponse<Wishlist>) => {
         dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
       });
     }

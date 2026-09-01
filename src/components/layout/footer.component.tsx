@@ -1,4 +1,6 @@
-export const FooterComponent = (): JSX.Element => {
+import type { ReactElement } from "react";
+
+export const FooterComponent = (): ReactElement => {
   return (
     <nav
       className="navbar navbar-expand bg-dark navbar-dark justify-content-center fixed-bottom"

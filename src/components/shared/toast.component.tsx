@@ -5,7 +5,9 @@ interface ToastElementProps {
   text: string;
 }
 
-export const SimpleToast = ({ category, text }: ToastElementProps): JSX.Element => {
+import type { ReactElement } from "react";
+
+export const SimpleToast = ({ category, text }: ToastElementProps): ReactElement => {
   return (
     <Toast>
       <Toast.Header>
