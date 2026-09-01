@@ -1,7 +1,8 @@
 import { cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
+import { vi } from "vitest";
+import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router";
 import { WishlistForm } from ".";
 import { getConfiguration } from "../../config";
 import { WishlistListComponent } from "./wishlist-list.component";
@@ -29,7 +30,7 @@ describe("Wishlist component test suite", () => {
   describe("what happens when the component is initialised", () => {
     it("should display the data table after the GET request", async () => {
       mock.onGet(WISHLIST_URL_GET_ALL).reply(200, []);
-      const spy = jest.spyOn(axios, "get");
+      const spy = vi.spyOn(axios, "get");
 
       render(<WishlistListComponent />, { wrapper: BrowserRouter });
 
@@ -55,7 +56,7 @@ describe("Wishlist component test suite", () => {
       try {
         await screen.findAllByTestId(TEST_ID_WISHLIST_TABLE);
         result = "success";
-      } catch (_) {
+      } catch {
         result = "error";
       }
 
@@ -66,7 +67,7 @@ describe("Wishlist component test suite", () => {
   describe("what happens if any of the buttons is clicked", () => {
     it("should navigate to the wishlist form in create mode if the Add Wishlist button is clicked", async () => {
       mock.onGet(WISHLIST_URL_GET_ALL).reply(200, []);
-      const spy = jest.spyOn(axios, "get");
+      const spy = vi.spyOn(axios, "get");
 
       // we need to provide both the list and editor components
       // ... otherwise we will not be able to navigate to the editor component upon button click
@@ -166,7 +167,7 @@ describe("Wishlist component test suite", () => {
         .onAny()
         .reply(500);
 
-      const deleteSpy = jest.spyOn(axios, "delete");
+      const deleteSpy = vi.spyOn(axios, "delete");
 
       // simulate a click on the Yes button, signifying the user wants to actually delete the wishlist
       fireEvent.click(screen.getByText(/Yes/));

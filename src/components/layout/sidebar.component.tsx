@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { useState, type CSSProperties, type ReactElement } from "react";
 
 const sidebarLinks: {
   label: string;
@@ -18,7 +18,7 @@ const containerStyle: CSSProperties = {
   left: "0px",
 };
 
-export const SidebarContainer = (): JSX.Element => {
+export const SidebarContainer = (): ReactElement => {
   return (
     <div className="sidebar-container p-0 pt-3 pb-3 bg-light text-dark" style={containerStyle}>
       <ul className="nav nav-pills d-grid gap-1">
@@ -37,7 +37,7 @@ interface ListItemProps {
   link: string;
 }
 
-const ListItem = ({ label, link }: ListItemProps): JSX.Element => {
+const ListItem = ({ label, link }: ListItemProps): ReactElement => {
   const [backgroundColor, setBackgroundColor] = useState<ListItemColor>("lightgrey");
 
   return (

@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { ReactElement } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router";
 
 /**
  * This function wraps the rendering of a component in a React MemoryRouter. It is especially helpful when using the

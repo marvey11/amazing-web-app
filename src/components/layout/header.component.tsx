@@ -1,4 +1,6 @@
-export const HeaderComponent = (): JSX.Element => {
+import type { ReactElement } from "react";
+
+export const HeaderComponent = (): ReactElement => {
   const name = "{amazing}";
   return (
     <nav className="navbar navbar-expand bg-dark navbar-dark fixed-top" style={{ height: "64px" }}>

@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { Wishlist } from "../../types";
 
 interface WishlistTableProps {
@@ -6,7 +7,7 @@ interface WishlistTableProps {
   onDeleteClicked: (wishlist: Wishlist) => void;
 }
 
-export const WishlistTable = ({ data, onEditClicked, onDeleteClicked }: WishlistTableProps): JSX.Element => {
+export const WishlistTable = ({ data, onEditClicked, onDeleteClicked }: WishlistTableProps): ReactElement => {
   return (
     <>
       <table className="table table-striped" data-testid="test-id-wishlist-table">
@@ -33,7 +34,7 @@ interface WishlistItemProps {
   onDeleteClicked: (wishlist: Wishlist) => void;
 }
 
-const WishlistItem = ({ data, onEditClicked, onDeleteClicked }: WishlistItemProps): JSX.Element => {
+const WishlistItem = ({ data, onEditClicked, onDeleteClicked }: WishlistItemProps): ReactElement => {
   return (
     <tr>
       <td className="font-monospace">{data.id}</td>

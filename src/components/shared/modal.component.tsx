@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ButtonVariant } from "../types";
 
@@ -19,7 +20,7 @@ const ModalDialog = ({
   showCloseButton = true,
   buttonsDisplayed,
   onClick,
-}: ModalDialogProps): JSX.Element => {
+}: ModalDialogProps): ReactElement => {
   return (
     <Modal show={show} data-testid="test-id-modal-dialog">
       <Modal.Header closeButton={showCloseButton}>
@@ -51,7 +52,7 @@ interface DialogButtonProps {
   onClick: (selected: DialogButtonType) => void;
 }
 
-const DialogButton = ({ buttonType, variant, onClick }: DialogButtonProps): JSX.Element => {
+const DialogButton = ({ buttonType, variant, onClick }: DialogButtonProps): ReactElement => {
   return (
     <Button variant={variant} onClick={() => onClick(buttonType)}>
       {buttonLabels[buttonType]}

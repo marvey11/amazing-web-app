@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useReducer, type ReactElement } from "react";
+import { useNavigate } from "react-router";
 import { WishlistService } from "../../services";
 import { Wishlist } from "../../types";
 import { DialogButtonType, ModalDialog } from "../shared";
@@ -34,7 +34,7 @@ enum ActionTypes {
   ResetDeletionPending,
 }
 
-export const WishlistListComponent = (): JSX.Element => {
+export const WishlistListComponent = (): ReactElement => {
   const navigate = useNavigate();
 
   // make sure the service is not recreated every time we need to render
@@ -56,7 +56,7 @@ export const WishlistListComponent = (): JSX.Element => {
 
     service
       .getAllWishlists()
-      .then((response: AxiosResponse<any, Wishlist[]>) => {
+      .then((response: AxiosResponse<Wishlist[]>) => {
         dispatch({ type: ActionTypes.SetSuccess, payload: response.data });
       })
       .catch((error: Error) => {
@@ -147,7 +147,7 @@ interface DeleteConfirmationProps {
   onClose: (confirmed: boolean) => void;
 }
 
-export const DeleteConfirmationDialog = ({ show, data, onClose }: DeleteConfirmationProps): JSX.Element => {
+export const DeleteConfirmationDialog = ({ show, data, onClose }: DeleteConfirmationProps): ReactElement => {
   const bodyText =
     data === undefined ? "" : `Are you sure you want to delete the wishlist "${data.name}" (ID = ${data.id})?`;
 

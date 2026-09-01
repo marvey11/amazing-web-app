@@ -2,170 +2,54 @@
   "private": true,
   "name": "@codescape-amazing/web-app",
   "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "check:all": "yarn typecheck && yarn lint && yarn format:check && yarn build && yarn test",
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
   "dependencies": {
-    "@babel/core": "^7.16.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
-    "@svgr/webpack": "^8.1.0",
     "axios": "^1.19.0",
-    "babel-jest": "^30.4.1",
-    "babel-loader": "^10.1.1",
-    "babel-plugin-named-asset-import": "^0.3.8",
-    "babel-preset-react-app": "^10.0.1",
-    "bfj": "^9.1.3",
-    "bootstrap": "5",
-    "browserslist": "^4.18.1",
-    "camelcase": "^9.0.0",
-    "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "css-loader": "^7.1.4",
-    "css-minimizer-webpack-plugin": "^8.0.0",
-    "dotenv": "^17.4.2",
-    "dotenv-expand": "^1000.0.0",
-    "eslint": "^8.3.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-webpack-plugin": "^3.1.1",
-    "file-loader": "^6.2.0",
-    "fs-extra": "^11.4.0",
-    "html-webpack-plugin": "^5.5.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.4.3",
-    "jest-resolve": "^30.4.1",
-    "jest-watch-typeahead": "^2.2.2",
-    "mini-css-extract-plugin": "^2.4.5",
-    "postcss": "^8.4.4",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-loader": "^8.2.1",
-    "postcss-normalize": "^13.0.1",
-    "postcss-preset-env": "^11.4.0",
-    "prompts": "^2.4.2",
-    "react": "^17.0.2",
-    "react-app-polyfill": "^3.0.0",
+    "bootstrap": "^5.3.8",
+    "react": "^19.2.8",
     "react-bootstrap": "^2.1.2",
-    "react-dev-utils": "^12.0.1",
-    "react-dom": "^17.0.2",
-    "react-refresh": "^0.18.0",
-    "react-router-dom": "^6.2.1",
-    "resolve": "^1.20.0",
-    "resolve-url-loader": "^5.0.0",
-    "sass-loader": "^17.0.0",
-    "semver": "^7.3.5",
-    "source-map-loader": "^5.0.0",
-    "style-loader": "^4.0.0",
-    "tailwindcss": "^4.3.3",
-    "terser-webpack-plugin": "^5.2.5",
-    "typescript": "^4.4.2",
-    "webpack": "^5.64.4",
-    "webpack-dev-server": "^6.0.0",
-    "webpack-manifest-plugin": "^6.0.1",
-    "workbox-webpack-plugin": "^7.4.1"
+    "react-dom": "^19.2.8",
+    "react-router": "^8.3.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.1.0",
+    "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.6",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^26.3.0",
-    "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.9",
-    "axios-mock-adapter": "^2.1.0"
-  },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "lint": "eslint --ext .ts --ext .tsx src/",
-    "lint:fix": "eslint --fix --ext .ts --ext .tsx src/",
-    "test": "node scripts/test.js --watchAll=false",
-    "test:coverage": "node scripts/test.js --coverage --watchAll=false",
-    "test:watch": "node scripts/test.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
-    ],
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "modulePaths": [],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ],
-    "resetMocks": true,
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/src/config.ts",
-      "<rootDir>/src/index.tsx"
-    ],
-    "coverageReporters": [
-      "cobertura",
-      "lcov",
-      "text"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 80,
-        "lines": 80,
-        "statements": 80
-      }
-    }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "@types/node": "^24.2.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/coverage-v8": "^3.2.0",
+    "axios-mock-adapter": "^2.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
+    "globals": "^15.0.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.0",
+    "typescript-eslint": "^8.69.0",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.0"
   }
 }

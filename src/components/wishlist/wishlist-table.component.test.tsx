@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import { Wishlist } from "../../types";
 import { WishlistTable } from "./wishlist-table.component";
 import testData from "./wishlist-test-data.json";
@@ -16,7 +16,7 @@ describe("Wishlist table test suite", () => {
 
   describe("what happens when a table is rendered", () => {
     it("should be rendered with only a header row for an empty data list", () => {
-      render(<WishlistTable data={[]} onEditClicked={(wishlist: Wishlist) => {}} onDeleteClicked={() => {}} />);
+      render(<WishlistTable data={[]} onEditClicked={() => {}} onDeleteClicked={() => {}} />);
 
       const dataTable = screen.getByTestId(TEST_ID_WISHLIST_TABLE);
       expect(dataTable).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe("Wishlist table test suite", () => {
     });
 
     it("should be rendered with the correct number of rows for the test data", () => {
-      render(<WishlistTable data={wishlists} onEditClicked={(wishlist: Wishlist) => {}} onDeleteClicked={() => {}} />, {
+      render(<WishlistTable data={wishlists} onEditClicked={() => {}} onDeleteClicked={() => {}} />, {
         wrapper: BrowserRouter,
       });
 

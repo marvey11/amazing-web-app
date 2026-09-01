@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import { vi } from "vitest";
 import { getConfiguration } from "../../config";
 import { renderWithRouter } from "../../utils/test-utils";
 import { WishlistForm } from "./wishlist-form.component";
@@ -50,7 +51,7 @@ describe("WishlistForm component test suite", () => {
       // the input field for the wishlist ID
       const idInputField = screen.getByTestId(TEST_ID_ID_INPUT);
 
-      const onIDChanged = jest.fn();
+      const onIDChanged = vi.fn();
       idInputField.onchange = onIDChanged;
 
       expect(idInputField).toHaveValue("");
@@ -63,7 +64,7 @@ describe("WishlistForm component test suite", () => {
       // the input field for the wishlist name
       const nameInputField = screen.getByTestId(TEST_ID_NAME_INPUT);
 
-      const onNameChanged = jest.fn();
+      const onNameChanged = vi.fn();
       nameInputField.onchange = onNameChanged;
 
       expect(nameInputField).toHaveValue("");
@@ -76,7 +77,7 @@ describe("WishlistForm component test suite", () => {
 
     it("should submit the entered data correctly", () => {
       mock.onPost(WISHLIST_URL_BASE).reply(201);
-      const spy = jest.spyOn(axios, "post");
+      const spy = vi.spyOn(axios, "post");
 
       render(<WishlistForm mode="create" />);
 
@@ -100,7 +101,7 @@ describe("WishlistForm component test suite", () => {
   describe("what happens when the form is loaded in edit mode", () => {
     it("should render correctly with the appropriate form controls", async () => {
       mock.onGet(WISHLIST_URL_GET_ONE).reply(200, { id: "abc-def-xyz", name: "Wishlist Test Name" });
-      const spy = jest.spyOn(axios, "get");
+      const spy = vi.spyOn(axios, "get");
 
       renderWithRouter(<WishlistForm mode="edit" />, "/wishlists/edit/:id", "/wishlists/edit/11");
 
