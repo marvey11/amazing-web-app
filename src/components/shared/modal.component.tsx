@@ -32,7 +32,12 @@ const ModalDialog = ({
       <Modal.Footer>
         {buttonsDisplayed.map((btype: DialogButtonType) => (
           // TODO: make the variant configurable
-          <DialogButton key={btype} buttonType={btype} variant="primary" onClick={onClick} />
+          <DialogButton
+            key={btype}
+            buttonType={btype}
+            variant="primary"
+            onClick={onClick}
+          />
         ))}
       </Modal.Footer>
     </Modal>
@@ -52,9 +57,18 @@ interface DialogButtonProps {
   onClick: (selected: DialogButtonType) => void;
 }
 
-const DialogButton = ({ buttonType, variant, onClick }: DialogButtonProps): ReactElement => {
+const DialogButton = ({
+  buttonType,
+  variant,
+  onClick,
+}: DialogButtonProps): ReactElement => {
   return (
-    <Button variant={variant} onClick={() => onClick(buttonType)}>
+    <Button
+      variant={variant}
+      onClick={() => {
+        onClick(buttonType);
+      }}
+    >
       {buttonLabels[buttonType]}
     </Button>
   );

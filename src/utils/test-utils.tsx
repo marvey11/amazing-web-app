@@ -13,11 +13,15 @@ import { MemoryRouter, Route, Routes } from "react-router";
  * The example used on https://testing-library.com/docs/example-react-router/ did not work for me as the ID in the
  * WishlistForm always turned up undefined.
  */
-export const renderWithRouter = (ui: ReactElement, template: string, route: string) =>
+export const renderWithRouter = (
+  ui: ReactElement,
+  template: string,
+  route: string,
+) =>
   render(
     <MemoryRouter initialEntries={[route]}>
       <Routes>
         <Route path={template} element={ui} />
       </Routes>
-    </MemoryRouter>
+    </MemoryRouter>,
   );

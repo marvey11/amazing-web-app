@@ -1,5 +1,11 @@
 import { AxiosResponse } from "axios";
-import { type FormEvent, useEffect, useMemo, useReducer, type ReactElement } from "react";
+import {
+  type SyntheticEvent,
+  useEffect,
+  useMemo,
+  useReducer,
+  type ReactElement,
+} from "react";
 import { useParams } from "react-router";
 import { WishlistService } from "../../services";
 import { Wishlist } from "../../types";
@@ -26,26 +32,39 @@ export const WishlistForm = ({ mode }: WishlistFormProps): ReactElement => {
   });
 
   useEffect(() => {
-    if (id) {
+    if (typeof id === "string" && id.length > 0) {
       // ID was provided --> get the appropriate wishlist from the REST API
-      service.getOneWishlist(id).then((response: AxiosResponse<Wishlist>) => {
-        dispatch({ type: ActionTypes.SetWishlistData, payload: response.data });
-      });
+      void service
+        .getOneWishlist(id)
+        .then((response: AxiosResponse<Wishlist>) => {
+          dispatch({
+            type: ActionTypes.SetWishlistData,
+            payload: response.data,
+          });
+        });
     }
   }, [id, service, dispatch]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>): void => {
     if (mode === "create") {
-      service
+      void service
         .createWishlist(createWishlistFromState(state))
-        .then((response: AxiosResponse) => console.log(response))
-        .catch((error: Error) => console.error(error.message));
+        .then((response: AxiosResponse) => {
+          console.log(response);
+        })
+        .catch((error: unknown) => {
+          console.error(error instanceof Error ? error.message : String(error));
+        });
     } else {
       // edit mode
-      service
+      void service
         .modifyWishlist(createWishlistFromState(state))
-        .then((response: AxiosResponse) => console.log(response))
-        .catch((error: Error) => console.error(error.message));
+        .then((response: AxiosResponse) => {
+          console.log(response);
+        })
+        .catch((error: unknown) => {
+          console.error(error instanceof Error ? error.message : String(error));
+        });
     }
     event.preventDefault();
   };
@@ -62,7 +81,12 @@ export const WishlistForm = ({ mode }: WishlistFormProps): ReactElement => {
           className="form-control"
           disabled={mode === "edit"}
           value={state.wishlistID}
-          onChange={(e) => dispatch({ type: ActionTypes.SetWishlistID, payload: e.target.value })}
+          onChange={(e) => {
+            dispatch({
+              type: ActionTypes.SetWishlistID,
+              payload: e.target.value,
+            });
+          }}
           data-testid="test-id-wishlist-form-id-input"
         ></input>
       </div>
@@ -75,7 +99,12 @@ export const WishlistForm = ({ mode }: WishlistFormProps): ReactElement => {
           type="text"
           className="form-control"
           value={state.wishlistName}
-          onChange={(e) => dispatch({ type: ActionTypes.SetWishlistName, payload: e.target.value })}
+          onChange={(e) => {
+            dispatch({
+              type: ActionTypes.SetWishlistName,
+              payload: e.target.value,
+            });
+          }}
           data-testid="test-id-wishlist-form-name-input"
         ></input>
       </div>
@@ -91,10 +120,10 @@ type Action =
   | { type: ActionTypes.SetWishlistID; payload: string }
   | { type: ActionTypes.SetWishlistName; payload: string };
 
-type State = {
+interface State {
   wishlistID: string;
   wishlistName: string;
-};
+}
 
 const wishlistFormReducer = (state: State, action: Action): State => {
   switch (action.type) {

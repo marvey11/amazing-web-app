@@ -7,10 +7,17 @@ interface WishlistTableProps {
   onDeleteClicked: (wishlist: Wishlist) => void;
 }
 
-export const WishlistTable = ({ data, onEditClicked, onDeleteClicked }: WishlistTableProps): ReactElement => {
+export const WishlistTable = ({
+  data,
+  onEditClicked,
+  onDeleteClicked,
+}: WishlistTableProps): ReactElement => {
   return (
     <>
-      <table className="table table-striped" data-testid="test-id-wishlist-table">
+      <table
+        className="table table-striped"
+        data-testid="test-id-wishlist-table"
+      >
         <thead>
           <tr>
             <th>ID</th>
@@ -20,7 +27,12 @@ export const WishlistTable = ({ data, onEditClicked, onDeleteClicked }: Wishlist
         </thead>
         <tbody>
           {data.map((item) => (
-            <WishlistItem key={item.id} data={item} onEditClicked={onEditClicked} onDeleteClicked={onDeleteClicked} />
+            <WishlistItem
+              key={item.id}
+              data={item}
+              onEditClicked={onEditClicked}
+              onDeleteClicked={onDeleteClicked}
+            />
           ))}
         </tbody>
       </table>
@@ -34,16 +46,30 @@ interface WishlistItemProps {
   onDeleteClicked: (wishlist: Wishlist) => void;
 }
 
-const WishlistItem = ({ data, onEditClicked, onDeleteClicked }: WishlistItemProps): ReactElement => {
+const WishlistItem = ({
+  data,
+  onEditClicked,
+  onDeleteClicked,
+}: WishlistItemProps): ReactElement => {
   return (
     <tr>
       <td className="font-monospace">{data.id}</td>
       <td>{data.name}</td>
       <td className="text-end">
-        <button className="btn btn-secondary me-1" onClick={() => onEditClicked(data)}>
+        <button
+          className="btn btn-secondary me-1"
+          onClick={() => {
+            onEditClicked(data);
+          }}
+        >
           Edit
         </button>
-        <button className="btn btn-secondary" onClick={() => onDeleteClicked(data)}>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            onDeleteClicked(data);
+          }}
+        >
           Delete
         </button>
       </td>

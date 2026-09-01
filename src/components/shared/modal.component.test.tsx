@@ -14,9 +14,9 @@ describe("ModalDialog Test Suite", () => {
           title="Modal Title"
           text="Modal Text"
           buttonsDisplayed={["OK", "CANCEL"]}
-          onClick={() => {}}
+          onClick={() => undefined}
           showCloseButton={false}
-        />
+        />,
       );
 
       expect(screen.getByTestId(TEST_ID_MODAL_DIALOG)).toBeInTheDocument();
@@ -38,17 +38,25 @@ describe("ModalDialog Test Suite", () => {
           title="Modal Title"
           text="Modal Text"
           buttonsDisplayed={[]}
-          onClick={() => {}}
+          onClick={() => undefined}
           showCloseButton={false}
-        />
+        />,
       );
 
-      expect(screen.queryByTestId(TEST_ID_MODAL_DIALOG)).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId(TEST_ID_MODAL_DIALOG),
+      ).not.toBeInTheDocument();
     });
 
     it("should render the close button correctly", () => {
       render(
-        <ModalDialog show={true} title="Modal Title" text="Modal Text" buttonsDisplayed={[]} onClick={() => {}} />
+        <ModalDialog
+          show={true}
+          title="Modal Title"
+          text="Modal Text"
+          buttonsDisplayed={[]}
+          onClick={() => undefined}
+        />,
       );
 
       const buttons = screen.getAllByRole("button");
