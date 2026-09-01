@@ -1,6 +1,6 @@
-type Configuration = {
+interface Configuration {
   restURL: string;
-};
+}
 
 const devConfig: Configuration = {
   restURL: "http://localhost:3000/api",

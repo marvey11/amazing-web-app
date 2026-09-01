@@ -6,7 +6,7 @@ test("renders learn react link", () => {
   render(
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
   const linkElement = screen.getByText(/amazing/i);

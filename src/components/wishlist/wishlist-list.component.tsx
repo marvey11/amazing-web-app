@@ -1,5 +1,11 @@
 import { AxiosResponse } from "axios";
-import { useCallback, useEffect, useMemo, useReducer, type ReactElement } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type ReactElement,
+} from "react";
 import { useNavigate } from "react-router";
 import { WishlistService } from "../../services";
 import { Wishlist } from "../../types";
@@ -54,13 +60,16 @@ export const WishlistListComponent = (): ReactElement => {
     // make sure we can show some loading indicator
     dispatch({ type: ActionTypes.SetLoading });
 
-    service
+    void service
       .getAllWishlists()
       .then((response: AxiosResponse<Wishlist[]>) => {
         dispatch({ type: ActionTypes.SetSuccess, payload: response.data });
       })
-      .catch((error: Error) => {
-        dispatch({ type: ActionTypes.SetError, payload: error.message });
+      .catch((error: unknown) => {
+        dispatch({
+          type: ActionTypes.SetError,
+          payload: error instanceof Error ? error.message : String(error),
+        });
       });
   }, [dispatch, service]);
 
@@ -74,7 +83,7 @@ export const WishlistListComponent = (): ReactElement => {
    * The app navigates to the Wishlist Form in create mode.
    */
   const onCreateClicked = (): void => {
-    navigate("/wishlists/create");
+    void navigate("/wishlists/create");
   };
 
   /**
@@ -85,7 +94,7 @@ export const WishlistListComponent = (): ReactElement => {
    * @param wishlist The wishlist object to be modified.
    */
   const onEditWishlist = (wishlist: Wishlist): void => {
-    navigate(`/wishlists/edit/${wishlist.id}`);
+    void navigate(`/wishlists/edit/${wishlist.id}`);
   };
 
   /**
@@ -112,12 +121,14 @@ export const WishlistListComponent = (): ReactElement => {
   const onConfirmationClosed = (deleteConfirmed: boolean): void => {
     // the hide-confirmation dispatch below will reset the wishlist
     // need to retrieve it beforehand --> but only if the deletion was actually confirmed by the user
-    const wishlist: Wishlist | undefined = deleteConfirmed ? state.pendingDeletion.pendingWishlist : undefined;
+    const wishlist: Wishlist | undefined = deleteConfirmed
+      ? state.pendingDeletion.pendingWishlist
+      : undefined;
 
     dispatch({ type: ActionTypes.ResetDeletionPending });
 
     if (wishlist) {
-      service.deleteWishlist(wishlist.id).then(() => {
+      void service.deleteWishlist(wishlist.id).then(() => {
         // need to refresh the data after server-side update
         getAllWishlists();
       });
@@ -132,7 +143,11 @@ export const WishlistListComponent = (): ReactElement => {
         onClose={onConfirmationClosed}
       />
       {state.data && (
-        <WishlistTable data={state.data} onEditClicked={onEditWishlist} onDeleteClicked={onDeleteWishlist} />
+        <WishlistTable
+          data={state.data}
+          onEditClicked={onEditWishlist}
+          onDeleteClicked={onDeleteWishlist}
+        />
       )}
       <button className="btn btn-primary" onClick={onCreateClicked}>
         Add Wishlist
@@ -147,9 +162,15 @@ interface DeleteConfirmationProps {
   onClose: (confirmed: boolean) => void;
 }
 
-export const DeleteConfirmationDialog = ({ show, data, onClose }: DeleteConfirmationProps): ReactElement => {
+export const DeleteConfirmationDialog = ({
+  show,
+  data,
+  onClose,
+}: DeleteConfirmationProps): ReactElement => {
   const bodyText =
-    data === undefined ? "" : `Are you sure you want to delete the wishlist "${data.name}" (ID = ${data.id})?`;
+    data === undefined
+      ? ""
+      : `Are you sure you want to delete the wishlist "${data.name}" (ID = ${data.id})?`;
 
   const handleClick = (selected: DialogButtonType): void => {
     onClose(selected === "YES");
@@ -174,7 +195,7 @@ type Action =
   | { type: ActionTypes.SetDeletionPending; payload: Wishlist }
   | { type: ActionTypes.ResetDeletionPending };
 
-type State = {
+interface State {
   /**
    * Stores the wishlist data retrieved from the REST API or undefined if either the data is currently being loaded or
    * an error occurred.
@@ -198,7 +219,7 @@ type State = {
     isDialogVisible: boolean;
     pendingWishlist: Wishlist | undefined;
   };
-};
+}
 
 const wishlistReducer = (state: State, action: Action): State => {
   switch (action.type) {

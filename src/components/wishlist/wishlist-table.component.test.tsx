@@ -16,7 +16,13 @@ describe("Wishlist table test suite", () => {
 
   describe("what happens when a table is rendered", () => {
     it("should be rendered with only a header row for an empty data list", () => {
-      render(<WishlistTable data={[]} onEditClicked={() => {}} onDeleteClicked={() => {}} />);
+      render(
+        <WishlistTable
+          data={[]}
+          onEditClicked={() => undefined}
+          onDeleteClicked={() => undefined}
+        />,
+      );
 
       const dataTable = screen.getByTestId(TEST_ID_WISHLIST_TABLE);
       expect(dataTable).toBeInTheDocument();
@@ -26,9 +32,16 @@ describe("Wishlist table test suite", () => {
     });
 
     it("should be rendered with the correct number of rows for the test data", () => {
-      render(<WishlistTable data={wishlists} onEditClicked={() => {}} onDeleteClicked={() => {}} />, {
-        wrapper: BrowserRouter,
-      });
+      render(
+        <WishlistTable
+          data={wishlists}
+          onEditClicked={() => undefined}
+          onDeleteClicked={() => undefined}
+        />,
+        {
+          wrapper: BrowserRouter,
+        },
+      );
 
       const dataTable = screen.getByTestId(TEST_ID_WISHLIST_TABLE);
       expect(dataTable).toBeInTheDocument();

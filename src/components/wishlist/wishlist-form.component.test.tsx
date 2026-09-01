@@ -69,7 +69,9 @@ describe("WishlistForm component test suite", () => {
 
       expect(nameInputField).toHaveValue("");
 
-      fireEvent.change(nameInputField, { target: { value: "Updated Test Name" } });
+      fireEvent.change(nameInputField, {
+        target: { value: "Updated Test Name" },
+      });
 
       expect(nameInputField).toHaveValue("Updated Test Name");
       expect(onNameChanged).toHaveBeenCalled();
@@ -87,7 +89,9 @@ describe("WishlistForm component test suite", () => {
 
       // the input field for the wishlist name
       const nameInputField = screen.getByTestId(TEST_ID_NAME_INPUT);
-      fireEvent.change(nameInputField, { target: { value: "Updated Test Name" } });
+      fireEvent.change(nameInputField, {
+        target: { value: "Updated Test Name" },
+      });
 
       const submitButton = screen.getByRole("button");
       fireEvent.click(submitButton);
@@ -100,10 +104,16 @@ describe("WishlistForm component test suite", () => {
 
   describe("what happens when the form is loaded in edit mode", () => {
     it("should render correctly with the appropriate form controls", async () => {
-      mock.onGet(WISHLIST_URL_GET_ONE).reply(200, { id: "abc-def-xyz", name: "Wishlist Test Name" });
+      mock
+        .onGet(WISHLIST_URL_GET_ONE)
+        .reply(200, { id: "abc-def-xyz", name: "Wishlist Test Name" });
       const spy = vi.spyOn(axios, "get");
 
-      renderWithRouter(<WishlistForm mode="edit" />, "/wishlists/edit/:id", "/wishlists/edit/11");
+      renderWithRouter(
+        <WishlistForm mode="edit" />,
+        "/wishlists/edit/:id",
+        "/wishlists/edit/11",
+      );
 
       // the form itself
       const form = await screen.findByTestId(TEST_ID_WISHLIST_FORM);

@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { vi } from "vitest";
@@ -75,9 +81,12 @@ describe("Wishlist component test suite", () => {
         <MemoryRouter initialEntries={["/wishlists"]}>
           <Routes>
             <Route path="/wishlists" element={<WishlistListComponent />} />
-            <Route path="/wishlists/create" element={<WishlistForm mode="create" />} />
+            <Route
+              path="/wishlists/create"
+              element={<WishlistForm mode="create" />}
+            />
           </Routes>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       await screen.findByTestId(TEST_ID_WISHLIST_TABLE);
@@ -115,9 +124,12 @@ describe("Wishlist component test suite", () => {
         <MemoryRouter initialEntries={["/wishlists"]}>
           <Routes>
             <Route path="/wishlists" element={<WishlistListComponent />} />
-            <Route path="/wishlists/edit/:id" element={<WishlistForm mode="edit" />} />
+            <Route
+              path="/wishlists/edit/:id"
+              element={<WishlistForm mode="edit" />}
+            />
           </Routes>
-        </MemoryRouter>
+        </MemoryRouter>,
       );
 
       await screen.findByTestId(TEST_ID_WISHLIST_TABLE);
@@ -173,7 +185,9 @@ describe("Wishlist component test suite", () => {
       fireEvent.click(screen.getByText(/Yes/));
 
       // wait until the modal is gone
-      await waitForElementToBeRemoved(() => screen.queryByTestId(TEST_ID_MODAL_DIALOG));
+      await waitForElementToBeRemoved(() =>
+        screen.queryByTestId(TEST_ID_MODAL_DIALOG),
+      );
 
       // make sure the delete method was actually called
       expect(deleteSpy).toHaveBeenCalled();

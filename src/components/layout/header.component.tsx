@@ -3,7 +3,10 @@ import type { ReactElement } from "react";
 export const HeaderComponent = (): ReactElement => {
   const name = "{amazing}";
   return (
-    <nav className="navbar navbar-expand bg-dark navbar-dark fixed-top" style={{ height: "64px" }}>
+    <nav
+      className="navbar navbar-expand bg-dark navbar-dark fixed-top"
+      style={{ height: "64px" }}
+    >
       <div className="d-flex align-items-center">
         <a href="/" className="navbar-brand ms-2 me-1 my-0 p-1">
           {name}
