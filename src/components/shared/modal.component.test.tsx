@@ -21,7 +21,7 @@ describe("ModalDialog Test Suite", () => {
 
       expect(screen.getByTestId(TEST_ID_MODAL_DIALOG)).toBeInTheDocument();
 
-      expect(screen.getByText(/Modal Title/)).toHaveClass("modal-title");
+      expect(screen.getByText(/Modal Title/)).toHaveClass("text-lg");
       expect(screen.getByText(/Modal Text/)).toBeInTheDocument();
 
       // there should be two buttons, OK and Cancel
@@ -61,7 +61,7 @@ describe("ModalDialog Test Suite", () => {
 
       const buttons = screen.getAllByRole("button");
       expect(buttons).toHaveLength(1);
-      expect(buttons[0]).toHaveClass("btn-close");
+      expect(buttons[0]).toHaveAccessibleName("Close");
     });
   });
 });

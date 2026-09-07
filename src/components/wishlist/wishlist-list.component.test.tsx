@@ -3,7 +3,7 @@ import {
   fireEvent,
   render,
   screen,
-  waitForElementToBeRemoved,
+  waitFor,
 } from "@testing-library/react";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -184,16 +184,18 @@ describe("Wishlist component test suite", () => {
       // simulate a click on the Yes button, signifying the user wants to actually delete the wishlist
       fireEvent.click(screen.getByText(/Yes/));
 
-      // wait until the modal is gone
-      await waitForElementToBeRemoved(() =>
+      // the native dialog unmounts immediately after confirmation
+      expect(
         screen.queryByTestId(TEST_ID_MODAL_DIALOG),
-      );
+      ).not.toBeInTheDocument();
 
       // make sure the delete method was actually called
       expect(deleteSpy).toHaveBeenCalled();
 
-      // we now should have only have the header row left after the delete
-      expect(screen.queryAllByRole("row")).toHaveLength(1);
+      // wait until the refreshed table contains only its header row
+      await waitFor(() => {
+        expect(screen.queryAllByRole("row")).toHaveLength(1);
+      });
 
       // clean-up
       deleteSpy.mockRestore();
