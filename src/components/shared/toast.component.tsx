@@ -1,5 +1,3 @@
-import { Toast } from "react-bootstrap";
-
 interface ToastElementProps {
   category: string;
   text: string;
@@ -12,11 +10,11 @@ export const SimpleToast = ({
   text,
 }: ToastElementProps): ReactElement => {
   return (
-    <Toast>
-      <Toast.Header>
-        <strong className="me.auto">{category}</strong>
-      </Toast.Header>
-      <Toast.Body>{text}</Toast.Body>
-    </Toast>
+    <div className="w-full max-w-sm overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+      <div className="border-b border-slate-200 px-4 py-3">
+        <strong>{category}</strong>
+      </div>
+      <div className="px-4 py-3">{text}</div>
+    </div>
   );
 };

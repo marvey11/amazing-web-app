@@ -10,8 +10,6 @@ describe("Sidebar Component Test Suite", () => {
       expect(items.length).toBeGreaterThan(0);
 
       const item = items[0];
-      expect(item).toHaveClass("nav-item");
-
       expect(item).toHaveAttribute(
         "style",
         expect.stringContaining("background-color: lightgrey"),

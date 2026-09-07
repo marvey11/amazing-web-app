@@ -1,6 +1,5 @@
 import type { ReactElement } from "react";
 import { Navigate, Route, Routes } from "react-router";
-import "./App.css";
 import {
   FooterComponent,
   HeaderComponent,
@@ -10,13 +9,13 @@ import { WishlistForm, WishlistListComponent } from "./components/wishlist";
 
 function App(): ReactElement {
   return (
-    <div className="container-fluid">
+    <div className="min-h-screen">
       <HeaderComponent />
       <SidebarContainer />
 
       <div
         id="content-container"
-        className="content-container"
+        className="absolute bottom-10 left-80 right-0 top-16 overflow-auto p-4"
         data-testid="test-id-content-container"
       >
         <Routes>

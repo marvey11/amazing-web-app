@@ -3,18 +3,18 @@ import type { ReactElement } from "react";
 export const HeaderComponent = (): ReactElement => {
   const name = "{amazing}";
   return (
-    <nav
-      className="navbar navbar-expand bg-dark navbar-dark fixed-top"
-      style={{ height: "64px" }}
-    >
-      <div className="d-flex align-items-center">
-        <a href="/" className="navbar-brand ms-2 me-1 my-0 p-1">
+    <nav className="fixed top-0 z-10 flex h-16 w-full items-center bg-slate-900 text-white">
+      <div className="flex items-center">
+        <a href="/" className="mx-2 rounded px-1 py-0 text-lg font-semibold">
           {name}
         </a>
 
-        <ul className="navbar-nav ms-1 me-auto my-0 p-1">
-          <li className="nav-item">
-            <a className="nav-link" href="/">
+        <ul className="ml-1 flex items-center">
+          <li>
+            <a
+              className="rounded px-2 py-1 text-slate-200 hover:bg-slate-700"
+              href="/"
+            >
               Home
             </a>
           </li>

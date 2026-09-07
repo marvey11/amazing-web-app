@@ -149,7 +149,10 @@ export const WishlistListComponent = (): ReactElement => {
           onDeleteClicked={onDeleteWishlist}
         />
       )}
-      <button className="btn btn-primary" onClick={onCreateClicked}>
+      <button
+        className="rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+        onClick={onCreateClicked}
+      >
         Add Wishlist
       </button>
     </>

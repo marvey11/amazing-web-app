@@ -21,10 +21,10 @@ const containerStyle: CSSProperties = {
 export const SidebarContainer = (): ReactElement => {
   return (
     <div
-      className="sidebar-container p-0 pt-3 pb-3 bg-light text-dark"
+      className="absolute bottom-0 left-0 top-16 w-80 bg-slate-100 p-0 pb-3 pt-3 text-slate-900"
       style={containerStyle}
     >
-      <ul className="nav nav-pills d-grid gap-1">
+      <ul className="grid gap-1">
         {sidebarLinks.map((item) => (
           <ListItem key={item.link} label={item.label} link={item.link} />
         ))}
@@ -46,7 +46,7 @@ const ListItem = ({ label, link }: ListItemProps): ReactElement => {
 
   return (
     <li
-      className="nav-item"
+      className="list-none"
       style={{ backgroundColor: backgroundColor }}
       onMouseEnter={() => {
         setBackgroundColor("darkgrey");
@@ -57,7 +57,7 @@ const ListItem = ({ label, link }: ListItemProps): ReactElement => {
     >
       <a
         href={link}
-        className="nav-link fw-bold text-decoration-none"
+        className="block font-bold text-black no-underline"
         style={{ color: "black" }}
       >
         {label}
