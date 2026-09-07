@@ -2438,7 +2438,7 @@ vite@^8.2.2:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vitest@^5:
+vitest@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/vitest/-/vitest-5.0.0.tgz#a85f075e65bc7c87cce4df2f9114214fbd92f245"
   integrity sha512-gpsMNoRhMjMktVxPtstOH4/PJuPyovVaMDr4oDilXaGH1EcqM2OE96SoHT2VIQ6fTGtTjqmHDrEu2X9RQiXf8Q==
